@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.info.License;
 
 @OpenAPIDefinition (info =
 @Info(
-          title = "hex-cqrs-es-eda",
+          title = "MsClientApplication",
           version = "1.0",
           description = "hex-cqrs-es-eda project",
           license = @License(name = "GNU GPLv3", url = "https://choosealicense.com/licenses/gpl-3.0/"),
