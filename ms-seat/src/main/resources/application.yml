@@ -1,0 +1,47 @@
+
+spring:
+  application:
+    name: ms-seat
+    
+  config:
+    import: optional:file:.env[.properties]      
+
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        acks: all
+        retries: 10
+        retry:
+          backoff:
+            ms: 1000
+    consumer:
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+           json:
+             trusted:
+               packages: '*' 
+               
+  data:
+    redis:
+      database: 0
+      host: localhost
+      port: 6381
+      password: ${REDISDB_PASS:invalidPassword}
+      timeout: 60000
+                    
+mongodb:
+  uri:
+    read: mongodb://sa:${MONGODB_PASS_READ:invalidPassword}@localhost:27021/mongo-read-db?authSource=admin
+    write: mongodb://sa:${MONGODB_PASS_WRITE:invalidPassword}@localhost:27022/mongo-write-db?authSource=admin
+    
+server:
+  port: 8083
+    
+
+
