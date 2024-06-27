@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: ms-reservation
+    
+  config:
+    import: optional:file:.env[.properties]      
+
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        acks: all
+        retries: 10
+        retry:
+          backoff:
+            ms: 1000
+    consumer:
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+           json:
+             trusted:
+               packages: '*' 
+             
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/reservationSqlDb
+    username: root
+    password: ${SQLDB_PASS:invalidPassword} 
+  jpa:
+    open-in-view: true
+    show-sql: true      
+   
+#    defer-datasource-initialization: true 
+#    hibernate:
+#      ddl-auto: create-drop
+#  sql:
+#    init:
+#      mode: always
+                   
+  data:
+    redis:
+      database: 0
+      host: localhost
+      port: 6382
+      password: ${REDISDB_PASS:invalidPassword}
+      timeout: 60000
+                    
+    mongodb:
+      uri: mongodb://sa:${MONGODB_PASS_WRITE:invalidPassword}@localhost:27023/mongo-write-db?authSource=admin
+    
+server:
+  port: 8084
+  
