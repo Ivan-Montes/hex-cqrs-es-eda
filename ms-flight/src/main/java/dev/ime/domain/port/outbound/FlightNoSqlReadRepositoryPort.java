@@ -8,7 +8,7 @@ import dev.ime.domain.model.Flight;
 
 public interface FlightNoSqlReadRepositoryPort {
 
-	List<Flight> findAll();
+	List<Flight> findAll(Integer page, Integer size);
 	Optional<Flight> findById(UUID id);
 	
 }

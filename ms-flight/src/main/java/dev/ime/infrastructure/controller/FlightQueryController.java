@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.ime.application.dto.FlightDto;
@@ -34,10 +35,15 @@ public class FlightQueryController implements FlightQueryControllerPort<FlightDt
 
 	@GetMapping
 	@Override
-	@Operation(summary="Get a List of all Flight", description="Get a List of all Flight, @return an object Response with a List of DTO's")
-	public ResponseEntity<List<FlightDto>> getAll() {
+	@Operation(summary="Get a List of all Flight, optionally paged", description="Get a List of all Flight, @return an object Response with a List of DTO's")
+	public ResponseEntity<List<FlightDto>> getAll(
+	        @RequestParam(value = "page", required = false)  Integer page,
+	        @RequestParam(value = "size", required = false)  Integer size) {
+
+		Integer pageValue = page != null && page >= 0 ? page : 0;
+		Integer sizeValue = size != null && size >= 1 ? size : 20;
 		
-		List<Flight> list = flightQueryServicePort.getAll();
+		List<Flight> list = flightQueryServicePort.getAll(pageValue, sizeValue);
 		
 		return ResponseEntity.ok( list.isEmpty()? Collections.emptyList():flightMapper.fromListDomainToListDto(list));
 	}

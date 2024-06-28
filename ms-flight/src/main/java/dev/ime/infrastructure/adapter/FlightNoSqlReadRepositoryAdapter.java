@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import dev.ime.config.FlightMapper;
@@ -25,9 +26,9 @@ public class FlightNoSqlReadRepositoryAdapter implements FlightNoSqlReadReposito
 	}
 
 	@Override
-	public List<Flight> findAll() {
+	public List<Flight> findAll(Integer page, Integer size) {
 		
-		return flightMapper.fromListMongoToListDomain( flightNoSqlReadRepository.findAll() );
+		return flightMapper.fromListMongoToListDomain( flightNoSqlReadRepository.findAll(PageRequest.of(page, size)).toList() );
 
 	}
 

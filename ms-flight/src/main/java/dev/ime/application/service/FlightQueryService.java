@@ -24,9 +24,9 @@ public class FlightQueryService implements FlightQueryServicePort{
 	}
 
 	@Override
-	public List<Flight> getAll() {
+	public List<Flight> getAll(Integer page, Integer size) {
 		
-		GetAllFlightQuery getAllQuery = new GetAllFlightQuery();
+		GetAllFlightQuery getAllQuery = new GetAllFlightQuery(page, size);
 		QueryHandler<List<Flight>> queryHandler = flightQueryDispatcher.getQueryHandler(getAllQuery);
 		
 		return queryHandler.handle(getAllQuery);

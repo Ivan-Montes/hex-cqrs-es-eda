@@ -8,7 +8,7 @@ import dev.ime.domain.model.Flight;
 
 public interface FlightQueryServicePort {
 
-	List<Flight> getAll();
+	List<Flight> getAll(Integer page, Integer size);
 	Optional<Flight> getById(UUID id);
 	
 }

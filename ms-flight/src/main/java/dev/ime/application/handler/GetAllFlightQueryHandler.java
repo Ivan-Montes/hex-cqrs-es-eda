@@ -24,9 +24,11 @@ public class GetAllFlightQueryHandler  implements QueryHandler<List<Flight>>{
 	@Override
 	public List<Flight> handle(Query query) {
 		
-		if (query instanceof GetAllFlightQuery) {
+		if (query instanceof GetAllFlightQuery getAllFlightQuery) {
 			
-			return flightNoSqlReadRepositoryPort.findAll();
+			return flightNoSqlReadRepositoryPort.findAll(
+					getAllFlightQuery.page(),
+					getAllFlightQuery.size());
 			
 		}else {
 			
