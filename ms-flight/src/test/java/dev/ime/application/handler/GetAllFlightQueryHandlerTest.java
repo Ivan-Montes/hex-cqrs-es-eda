@@ -44,7 +44,7 @@ class GetAllFlightQueryHandlerTest {
 	@BeforeEach
 	private void createObjects() {
 		
-		getAllFlightQuery = new GetAllFlightQuery();
+		getAllFlightQuery = new GetAllFlightQuery(0,1);
 		getByIdFlightQuery = new GetByIdFlightQuery( flightId );
 		
 		flightList = new ArrayList<>();
@@ -63,7 +63,7 @@ class GetAllFlightQueryHandlerTest {
 	void GetAllFlightQueryHandler_handle_ReturnList() {
 		
 		flightList.add(flightTest);
-		Mockito.when(flightNoSqlReadRepositoryPort.findAll()).thenReturn(flightList);
+		Mockito.when(flightNoSqlReadRepositoryPort.findAll(Mockito.anyInt(), Mockito.anyInt())).thenReturn(flightList);
 		
 		List<Flight> list = getAllFlightQueryHandler.handle(getAllFlightQuery);
 		
