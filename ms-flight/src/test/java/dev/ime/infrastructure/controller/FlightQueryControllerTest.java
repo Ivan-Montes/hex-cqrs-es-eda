@@ -85,7 +85,7 @@ class FlightQueryControllerTest {
 		
 		flightDtoList.add(flightDtoTest);
 		flightList.add(flightTest);
-		Mockito.when(flightQueryServicePort.getAll()).thenReturn(flightList);
+		Mockito.when(flightQueryServicePort.getAll(Mockito.anyInt(), Mockito.anyInt())).thenReturn(flightList);
 		Mockito.when(flightMapper.fromListDomainToListDto(Mockito.anyList())).thenReturn(flightDtoList);
 		
 		mockMvc.perform(MockMvcRequestBuilders.get(PATH))
@@ -100,11 +100,28 @@ class FlightQueryControllerTest {
 	}
 
 	@Test
-	void FlightQueryController_getAll_ReturnResponseListFlightDtoEmtpy() throws Exception {
+	void FlightQueryController_getAll_WithBadParameters_ReturnResponseListFlightDtoEmtpy() throws Exception {
 		
-		Mockito.when(flightQueryServicePort.getAll()).thenReturn(flightList);
+		Mockito.when(flightQueryServicePort.getAll(Mockito.anyInt(), Mockito.anyInt())).thenReturn(flightList);
 		
-		mockMvc.perform(MockMvcRequestBuilders.get(PATH))
+		mockMvc.perform(MockMvcRequestBuilders.get(PATH)
+				.param("size", "-1")
+				.param("page", "-1")
+				)
+		.andExpect(MockMvcResultMatchers.status().isOk())
+		.andExpect(MockMvcResultMatchers.jsonPath("$", org.hamcrest.Matchers.empty()))
+		;
+	}
+
+	@Test
+	void FlightQueryController_getAll_WithRightsParameters_ReturnResponseListFlightDtoEmtpy() throws Exception {
+		
+		Mockito.when(flightQueryServicePort.getAll(Mockito.anyInt(), Mockito.anyInt())).thenReturn(flightList);
+		
+		mockMvc.perform(MockMvcRequestBuilders.get(PATH)
+				.param("size", "2")
+				.param("page", "2")
+				)
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andExpect(MockMvcResultMatchers.jsonPath("$", org.hamcrest.Matchers.empty()))
 		;
