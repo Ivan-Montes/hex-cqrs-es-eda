@@ -26,8 +26,8 @@ public class ApplicationLevelExceptionHandler {
 
 	@ExceptionHandler({
 		dev.ime.application.exception.ResourceNotFoundException.class,
-		dev.ime.application.exception.EntityAssociatedException.class,
 		dev.ime.application.exception.EventUnexpectedException.class,
+		dev.ime.application.exception.ReservationAssociatedException.class,
 		dev.ime.application.exception.BasicException.class
 		})
 	public ResponseEntity<ExceptionResponse> basicException(BasicException ex){
