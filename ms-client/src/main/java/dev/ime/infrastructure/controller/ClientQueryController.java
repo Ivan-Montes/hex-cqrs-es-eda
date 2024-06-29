@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.ime.application.dto.ClientDto;
@@ -31,17 +32,22 @@ public class ClientQueryController implements ClientQueryControllerPort<ClientDt
 		this.clientQueryServicePort = clientQueryServicePort;
 		this.clientMapper = clientMapper;
 	}
-
+	
 	@GetMapping
 	@Override
-	@Operation(summary="Get a List of all Client", description="Get a List of all Client, @return an object Response with a List of DTO's")
-	public ResponseEntity<List<ClientDto>> getAll() {
-		
-		List<Client> list = clientQueryServicePort.getAll();
-		
+	@Operation(summary="Get a List of all Client, optionally paged", description="Get a List of all Client, @return an object Response with a List of DTO's")
+	public ResponseEntity<List<ClientDto>> getAll(
+	        @RequestParam(value = "page", required = false)  Integer page,
+	        @RequestParam(value = "size", required = false)  Integer size) {
+
+		Integer pageValue = page != null && page >= 0 ? page : 0;
+		Integer sizeValue = size != null && size >= 1 ? size : 20;
+	    
+	    List<Client> list = clientQueryServicePort.getAll(pageValue, sizeValue);
+
 		return ResponseEntity.ok( list.isEmpty()? Collections.emptyList():clientMapper.fromListDomainToListDto(list));
 	}
-
+	
 	@GetMapping("/{id}")
 	@Override
 	@Operation(summary="Get a Client according to an Id", description="Get a Client according to an Id, @return an object Response with the entity required in a DTO")

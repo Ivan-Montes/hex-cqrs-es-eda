@@ -24,9 +24,9 @@ public class ClientQueryService implements ClientQueryServicePort{
 	}
 
 	@Override
-	public List<Client> getAll() {
+	public List<Client> getAll(Integer page, Integer size) {
 		
-		GetAllClientQuery getAllQuery = new GetAllClientQuery();
+		GetAllClientQuery getAllQuery = new GetAllClientQuery(page, size);
 		QueryHandler<List<Client>> queryHandler = clientQueryDispatcher.getQueryHandler(getAllQuery);
 		
 		return queryHandler.handle(getAllQuery);

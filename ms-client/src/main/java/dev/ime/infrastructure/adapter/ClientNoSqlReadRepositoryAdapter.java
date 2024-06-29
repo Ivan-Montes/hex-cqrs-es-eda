@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import dev.ime.config.ClientMapper;
@@ -25,9 +26,9 @@ public class ClientNoSqlReadRepositoryAdapter implements ClientNoSqlReadReposito
 	}
 
 	@Override
-	public List<Client> findAll() {
+	public List<Client> findAll(Integer page, Integer size) {
 		
-		return clientMapper.fromListMongoToListDomain( clientNoSqlReadRepository.findAll() );
+		return clientMapper.fromListMongoToListDomain( clientNoSqlReadRepository.findAll(PageRequest.of(page, size)).toList() );
 		
 	}
 

@@ -8,7 +8,7 @@ import dev.ime.domain.model.Client;
 
 public interface ClientQueryServicePort {
 	
-	List<Client>getAll();
+	List<Client>getAll(Integer page, Integer size);
 	Optional<Client>getById(UUID id);
 	
 }
