@@ -15,6 +15,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import dev.ime.config.ClientMapper;
 import dev.ime.domain.model.Client;
@@ -64,12 +66,15 @@ class ClientNoSqlReadRepositoryAdapterTest {
 	@Test
 	void ClientNoSqlReadRepositoryAdapter_findAll_ReturnListClient() {
 		
+		@SuppressWarnings("unchecked")
+		Page<ClientMongoEntity> pageMock = Mockito.mock(Page.class);
 		mongoEntityList.add(mongoEntity);
 		domainEntityList.add(domainEntity);
-		Mockito.when(clientNoSqlReadRepository.findAll()).thenReturn(mongoEntityList);
+		Mockito.when(clientNoSqlReadRepository.findAll(Mockito.any(PageRequest.class))).thenReturn(pageMock);
+		Mockito.when(pageMock.toList()).thenReturn(mongoEntityList);
 		Mockito.when(clientMapper.fromListMongoToListDomain(Mockito.anyList())).thenReturn(domainEntityList);
 		
-		List<Client> list = clientNoSqlReadRepositoryAdapter.findAll();
+		List<Client> list = clientNoSqlReadRepositoryAdapter.findAll(0,1);
 
 		org.junit.jupiter.api.Assertions.assertAll(
 				()-> Assertions.assertThat(list).isNotNull(),
