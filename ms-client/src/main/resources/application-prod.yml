@@ -6,7 +6,11 @@ spring:
     consumer:
       bootstrap-servers: kafka:9092 
       
-              
+  data:
+    redis:
+      host: ms-client-redis-db
+      port: 6379 
+                    
 mongodb:
   uri:
     read: mongodb://sa:${MONGODB_PASS_READ:invalidPassword}@ms-client-read-db:27017/mongo-read-db?authSource=admin

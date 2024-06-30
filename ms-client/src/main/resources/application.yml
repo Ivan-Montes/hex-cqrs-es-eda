@@ -27,7 +27,14 @@ spring:
              trusted:
                packages: '*' 
                
-              
+  data:
+    redis:
+      database: 0
+      host: localhost
+      port: 6379
+      password: ${REDISDB_PASS:invalidPassword}
+      timeout: 60000
+                    
 mongodb:
   uri:
     read: mongodb://sa:${MONGODB_PASS_READ:invalidPassword}@localhost:27017/mongo-read-db?authSource=admin
