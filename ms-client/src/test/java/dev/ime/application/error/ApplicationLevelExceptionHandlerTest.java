@@ -64,7 +64,6 @@ class ApplicationLevelExceptionHandlerTest {
 				()-> Assertions.assertThat(responseEntity).isNotNull(),
 				()-> Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST)
 				);	
-	}
-	
+	}	
 
 }

@@ -53,7 +53,7 @@ class ClientQueryServiceTest {
 		Mockito.when(clientQueryDispatcher.getQueryHandler(Mockito.any(Query.class))).thenReturn(queryHandler);
 		Mockito.when(queryHandler.handle(Mockito.any(Query.class))).thenReturn(clientList);
 		
-		List<Client> list = clientQueryService.getAll();
+		List<Client> list = clientQueryService.getAll(1,1);
 		
 		org.junit.jupiter.api.Assertions.assertAll(
 				()-> Assertions.assertThat(list).isNotNull(),

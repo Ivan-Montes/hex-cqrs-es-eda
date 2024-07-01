@@ -84,6 +84,7 @@ class ClientCommandServiceTest {
 				()-> Assertions.assertThat(ex.getClass()).isEqualTo(EventUnexpectedException.class)
 				);		
 	}
+	
 	@Test
 	void ClientCommandService_update_ReturnOptionalEvent() {
 

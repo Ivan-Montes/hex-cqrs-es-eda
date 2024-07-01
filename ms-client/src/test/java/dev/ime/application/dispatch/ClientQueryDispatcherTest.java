@@ -37,7 +37,7 @@ class ClientQueryDispatcherTest {
 	@Test
 	void ClientQueryDispatcher_getQueryHandler_ReturnGetAllHandler() {
 		
-		GetAllClientQuery query = new GetAllClientQuery();
+		GetAllClientQuery query = new GetAllClientQuery(1,1);
 		
 		QueryHandler<List<Client>> queryHandler = clientQueryDispatcher.getQueryHandler(query);
 		
