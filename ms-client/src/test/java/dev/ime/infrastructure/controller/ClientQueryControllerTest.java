@@ -64,7 +64,7 @@ class ClientQueryControllerTest {
 		
 		clientList.add(clientTest);
 		clientDtoList.add(clientDtoTest);
-		Mockito.when(clientQueryServicePort.getAll()).thenReturn(clientList);
+		Mockito.when(clientQueryServicePort.getAll(Mockito.anyInt(), Mockito.anyInt())).thenReturn(clientList);
 		Mockito.when(clientMapper.fromListDomainToListDto(Mockito.anyList())).thenReturn(clientDtoList);
 		
 		mockMvc.perform(MockMvcRequestBuilders.get(PATH))
@@ -76,11 +76,26 @@ class ClientQueryControllerTest {
 	}
 
 	@Test
-	void ClientQueryController_getAll_ReturnResponseListClientDtoEmpty() throws Exception {
+	void ClientQueryController_getAll_WithIncorrectParam_ReturnResponseListClientDtoEmpty() throws Exception {
 		
-		Mockito.when(clientQueryServicePort.getAll()).thenReturn(clientList);
+		Mockito.when(clientQueryServicePort.getAll(Mockito.anyInt(), Mockito.anyInt())).thenReturn(clientList);
 		
-		mockMvc.perform(MockMvcRequestBuilders.get(PATH))
+		mockMvc.perform(MockMvcRequestBuilders.get(PATH)
+				.param("page", "-1")
+				.param("size", "-1"))
+		.andExpect(MockMvcResultMatchers.status().isOk())
+		.andExpect(MockMvcResultMatchers.jsonPath("$", org.hamcrest.Matchers.empty()))
+		;
+	}
+
+	@Test
+	void ClientQueryController_getAll_WithCorrectParam_ReturnResponseListClientDtoEmpty() throws Exception {
+		
+		Mockito.when(clientQueryServicePort.getAll(Mockito.anyInt(), Mockito.anyInt())).thenReturn(clientList);
+		
+		mockMvc.perform(MockMvcRequestBuilders.get(PATH)
+				.param("page", "2")
+				.param("size", "2"))
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andExpect(MockMvcResultMatchers.jsonPath("$", org.hamcrest.Matchers.empty()))
 		;
