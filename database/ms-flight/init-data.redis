@@ -1,0 +1,5 @@
+HMSET "dev.ime.infrastructure.entity.PlaneRedisEntity:538c58eb-9ac3-4bef-9b37-a720e6faf00d" "_class" "dev.ime.infrastructure.entity.PlaneRedisEntity" "planeId" "538c58eb-9ac3-4bef-9b37-a720e6faf00d"
+HMSET "dev.ime.infrastructure.entity.PlaneRedisEntity:538c58eb-9ac3-4bef-9b37-a720e6faf00e" "_class" "dev.ime.infrastructure.entity.PlaneRedisEntity" "planeId" "538c58eb-9ac3-4bef-9b37-a720e6faf00e"
+HMSET "dev.ime.infrastructure.entity.PlaneRedisEntity:538c58eb-9ac3-4bef-9b37-a720e6faf00f" "_class" "dev.ime.infrastructure.entity.PlaneRedisEntity" "planeId" "538c58eb-9ac3-4bef-9b37-a720e6faf00f"
+
+SADD "dev.ime.infrastructure.entity.PlaneRedisEntity" "538c58eb-9ac3-4bef-9b37-a720e6faf00d" "538c58eb-9ac3-4bef-9b37-a720e6faf00e" "538c58eb-9ac3-4bef-9b37-a720e6faf00f" 
