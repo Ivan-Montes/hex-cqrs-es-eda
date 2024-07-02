@@ -64,7 +64,7 @@ class FlightQueryServiceTest {
 		Mockito.when(flightQueryDispatcher.getQueryHandler(Mockito.any(Query.class))).thenReturn(queryHandler);
 		Mockito.when(queryHandler.handle(Mockito.any(Query.class))).thenReturn(flightList);
 		
-		List<Flight> list = flightQueryService.getAll();
+		List<Flight> list = flightQueryService.getAll(0,1);
 		
 		org.junit.jupiter.api.Assertions.assertAll(
 				()-> Assertions.assertThat(list).isNotNull(),
