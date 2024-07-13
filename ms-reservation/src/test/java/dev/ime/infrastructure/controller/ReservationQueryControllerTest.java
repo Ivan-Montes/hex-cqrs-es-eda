@@ -70,7 +70,7 @@ class ReservationQueryControllerTest {
 		
 		reservationList.add(reservationTest);
 		reservationDtoList.add(reservationDtoTest);
-		Mockito.when(genericQueryServicePort.getAll()).thenReturn(reservationList);
+		Mockito.when(genericQueryServicePort.getAll(Mockito.anyInt(), Mockito.anyInt())).thenReturn(reservationList);
 		Mockito.when(reservationMapper.fromListDomainToListDto(Mockito.anyList())).thenReturn(reservationDtoList);
 		
 		mockMvc.perform(MockMvcRequestBuilders.get(PATH))
@@ -84,11 +84,26 @@ class ReservationQueryControllerTest {
 	}
 
 	@Test
-	void ReservationQueryController_getAll_ReturnResponseListDtoEmpty() throws Exception {
+	void ReservationQueryController_getAll_WithBadParams_ReturnResponseListDtoEmpty() throws Exception {
 
-		Mockito.when(genericQueryServicePort.getAll()).thenReturn(reservationList);
+		Mockito.when(genericQueryServicePort.getAll(Mockito.anyInt(), Mockito.anyInt())).thenReturn(reservationList);
 		
-		mockMvc.perform(MockMvcRequestBuilders.get(PATH))
+		mockMvc.perform(MockMvcRequestBuilders.get(PATH)
+				.param("page", "-1")
+				.param("size", "-1"))
+		.andExpect(MockMvcResultMatchers.status().isOk())
+		.andExpect(MockMvcResultMatchers.jsonPath("$", org.hamcrest.Matchers.empty()))
+		;
+	}
+
+	@Test
+	void ReservationQueryController_getAll_WithRightParams_ReturnResponseListDtoEmpty() throws Exception {
+
+		Mockito.when(genericQueryServicePort.getAll(Mockito.anyInt(), Mockito.anyInt())).thenReturn(reservationList);
+		
+		mockMvc.perform(MockMvcRequestBuilders.get(PATH)
+				.param("page", "2")
+				.param("size", "2"))
 		.andExpect(MockMvcResultMatchers.status().isOk())
 		.andExpect(MockMvcResultMatchers.jsonPath("$", org.hamcrest.Matchers.empty()))
 		;
@@ -119,6 +134,5 @@ class ReservationQueryControllerTest {
 		.andExpect(MockMvcResultMatchers.jsonPath("$.reservationId", org.hamcrest.Matchers.equalTo(ApplicationConstant.ZEROUUID)))
 		;
 	}
-
 	
 }
