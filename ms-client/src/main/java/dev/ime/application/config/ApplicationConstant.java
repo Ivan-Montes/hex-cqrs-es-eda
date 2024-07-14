@@ -14,11 +14,19 @@ public class ApplicationConstant {
 	public static final String FLIGHTID = "FlightId";
 	public static final String SEATID = "SeatId";
 	public static final String PLANEID = "PlaneId";
+	public static final String RESERVID = "ReservationId";
+	public static final String PAYID = "PaymentId";
+	public static final String NOTID = "NotificationId";
+	public static final String REGISTRYID = "RegistryId";
 	public static final String CAT_CLIENT = "Client";
 	public static final String CAT_FLIGHT = "Flight";
 	public static final String CAT_EVE = "Event";
 	public static final String CAT_SEAT = "Seat";
 	public static final String CAT_PLANE = "Plane";
+	public static final String CAT_RESERV = "Reservation";
+	public static final String CAT_PAY = "Payment";
+	public static final String CAT_NOT = "Notification";
+	public static final String CAT_REGISTRY = "Registry";
 
 	public static final String EX_RESOURCE_NOT_FOUND = "ResourceNotFoundException";	
 	public static final String EX_RESOURCE_NOT_FOUND_DESC = "Exception is coming, the resource has not been found.";	
@@ -29,7 +37,9 @@ public class ApplicationConstant {
 	public static final String EX_EVENT_UNEXPEC = "Event Unexpected Exception";
 	public static final String EX_EVENT_UNEXPEC_DESC = "Event Unexpected Exception";
 	public static final String EX_DATETIME = "DatetimeBasicException";
-	public static final String EX_DATETIME_DESC = "Datetime invalid Basic Exception";
+	public static final String EX_DATETIME_DESC = "Datetime invalid Basic Exception";	
+	public static final String EX_RESERVATION_ASSOCIATED = "ReservationAssociatedException";	
+	public static final String EX_RESERVATION_ASSOCIATED_DESC = "Some RESERVATION is associated with this entity";
 	
 	public static final String EX_METHOD_ARGUMENT_INVALID = "MethodArgumentNotValidException";
 	public static final String EX_METHOD_ARGUMENT_INVALID_DESC = "MethodArgument Not Valid Exception";
@@ -64,6 +74,16 @@ public class ApplicationConstant {
 	public static final String PLANE_DELETED = "plane.deleted";
 	public static final String PLANE_SEAT_ADDED = "plane.seat.added";
 	public static final String PLANE_SEAT_REMOVED = "plane.seat.removed";
+	public static final String RESERVATION_CREATED = "reservation.created";
+	public static final String RESERVATION_UPDATED = "reservation.updated";
+	public static final String RESERVATION_DELETED = "reservation.deleted";
+	public static final String PAYMENT_CREATED = "payment.created";
+	public static final String PAYMENT_UPDATED = "payment.updated";
+	public static final String PAYMENT_DELETED = "payment.deleted";
+	public static final String NOTIFICATION_CREATED = "notification.created";
+	public static final String NOTIFICATION_UPDATED = "notification.updated";
+	public static final String NOTIFICATION_DELETED = "notification.deleted";
+	public static final String REGISTRY_CREATED = "registry.created";
 
 	public static final String PATTERN_LOCALDATE = "^\\d{4}-\\d{2}-\\d{2}$";
 	public static final String PATTERN_LOCALTIME = "^\\d{2}:\\d{2}$";

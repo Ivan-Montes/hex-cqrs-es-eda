@@ -7,8 +7,8 @@ public class ApplicationConstant {
 	}
 
 	public static final String NODATA = "No data available";
-	public static final String UNKNOWDATA = "Unknow data";	
-	public static final String ZEROUUID = "00000000-0000-0000-0000-000000000000";		
+	public static final String UNKNOWDATA = "Unknow data";
+	public static final String ZEROUUID = "00000000-0000-0000-0000-000000000000";				
 	
 	public static final String CLIENTID = "ClientId";
 	public static final String FLIGHTID = "FlightId";
