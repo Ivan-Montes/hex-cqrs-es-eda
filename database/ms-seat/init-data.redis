@@ -1,0 +1,12 @@
+HMSET "dev.ime.infrastructure.entity.FlightRedisEntity:cb62f3ef-8c9f-4715-ad5c-f700201eac57" "_class" "dev.ime.infrastructure.entity.FlightRedisEntity" "flightId" "cb62f3ef-8c9f-4715-ad5c-f700201eac57" "planeId" "538c58eb-9ac3-4bef-9b37-a720e6faf00d"
+HMSET "dev.ime.infrastructure.entity.FlightRedisEntity:cb62f3ef-8c9f-4715-ad5c-f700201eac58" "_class" "dev.ime.infrastructure.entity.FlightRedisEntity" "flightId" "cb62f3ef-8c9f-4715-ad5c-f700201eac58" "planeId" "538c58eb-9ac3-4bef-9b37-a720e6faf00e"
+HMSET "dev.ime.infrastructure.entity.FlightRedisEntity:cb62f3ef-8c9f-4715-ad5c-f700201eac59" "_class" "dev.ime.infrastructure.entity.FlightRedisEntity" "flightId" "cb62f3ef-8c9f-4715-ad5c-f700201eac59" "planeId" "538c58eb-9ac3-4bef-9b37-a720e6faf00d"
+
+SADD "dev.ime.infrastructure.entity.FlightRedisEntity" "cb62f3ef-8c9f-4715-ad5c-f700201eac57" "cb62f3ef-8c9f-4715-ad5c-f700201eac58" "cb62f3ef-8c9f-4715-ad5c-f700201eac59" 
+
+SADD "dev.ime.infrastructure.entity.FlightRedisEntity:planeId:538c58eb-9ac3-4bef-9b37-a720e6faf00d" "cb62f3ef-8c9f-4715-ad5c-f700201eac57"
+SADD "dev.ime.infrastructure.entity.FlightRedisEntity:cb62f3ef-8c9f-4715-ad5c-f700201eac57:idx" "dev.ime.infrastructure.entity.FlightRedisEntity:planeId:538c58eb-9ac3-4bef-9b37-a720e6faf00d"
+SADD "dev.ime.infrastructure.entity.FlightRedisEntity:planeId:538c58eb-9ac3-4bef-9b37-a720e6faf00e" "cb62f3ef-8c9f-4715-ad5c-f700201eac58"
+SADD "dev.ime.infrastructure.entity.FlightRedisEntity:cb62f3ef-8c9f-4715-ad5c-f700201eac58:idx" "dev.ime.infrastructure.entity.FlightRedisEntity:planeId:538c58eb-9ac3-4bef-9b37-a720e6faf00e"
+SADD "dev.ime.infrastructure.entity.FlightRedisEntity:planeId:538c58eb-9ac3-4bef-9b37-a720e6faf00d" "cb62f3ef-8c9f-4715-ad5c-f700201eac59"
+SADD "dev.ime.infrastructure.entity.FlightRedisEntity:cb62f3ef-8c9f-4715-ad5c-f700201eac59:idx" "dev.ime.infrastructure.entity.FlightRedisEntity:planeId:538c58eb-9ac3-4bef-9b37-a720e6faf00d"
