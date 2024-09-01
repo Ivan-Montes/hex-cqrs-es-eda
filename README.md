@@ -2,7 +2,7 @@
 
 Airline management Microservices in a multimodule Maven project with Hexagonal Arch, CQRS, Event Sourcing, Event Driven Arch and Kafka for synchronizing databases
 
-:rotating_light::no_entry:**Under construction**
+**Components**
 - [Kafka](https://kafka.apache.org/) [9092] + [9093] 
 - [Kafka-UI](https://docs.kafka-ui.provectus.io/) [8080]
 - REST API ms-client with [OpenApi Swagger](https://swagger.io/) and two separate DB for R/RW actions [8081]
