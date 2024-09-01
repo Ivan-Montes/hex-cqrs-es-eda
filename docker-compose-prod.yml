@@ -1,0 +1,419 @@
+version: "3.8"
+
+services:
+
+  ms-client-read-db:
+    image: mongo
+    container_name: ms-client-read-db
+    environment:
+      MONGO_INITDB_DATABASE: mongo-read-db
+      MONGO_INITDB_ROOT_USERNAME: sa
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASS_READ}
+    volumes:
+      - ./database/ms-client/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - 27017:27017
+    restart: on-failure:3
+    healthcheck:
+      test: "echo 'db.runCommand(\"ping\").ok'"
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      
+  ms-client-write-db:
+    image: mongo
+    container_name: ms-client-write-db
+    environment:
+      MONGO_INITDB_DATABASE: mongo-write-db
+      MONGO_INITDB_ROOT_USERNAME: sa
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASS_WRITE}
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - 27018:27017
+    restart: on-failure:3
+    healthcheck:
+      test: "echo 'db.runCommand(\"ping\").ok'"
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      
+  ms-client-redis-db:
+    build: ./database/ms-client
+    container_name: ms-client-redis-db
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - "6379:6379"
+    restart: on-failure:3
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]  
+       
+  ms-flight-read-db:
+    image: mongo
+    container_name: ms-flight-read-db
+    environment:
+      MONGO_INITDB_DATABASE: mongo-read-db
+      MONGO_INITDB_ROOT_USERNAME: sa
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASS_READ}
+    volumes:
+      - ./database/ms-flight/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - 27019:27017
+    restart: on-failure:3
+    healthcheck:
+      test: "echo 'db.runCommand(\"ping\").ok'"
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      
+  ms-flight-write-db:
+    image: mongo
+    container_name: ms-flight-write-db
+    environment:
+      MONGO_INITDB_DATABASE: mongo-write-db
+      MONGO_INITDB_ROOT_USERNAME: sa
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASS_WRITE}
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - 27020:27017
+    restart: on-failure:3
+    healthcheck:
+      test: "echo 'db.runCommand(\"ping\").ok'"
+      interval: 5s
+      timeout: 5s
+      retries: 3         
+       
+  ms-flight-redis-db:
+    build: ./database/ms-flight
+    container_name: ms-flight-redis-db
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - "6380:6379"
+    restart: on-failure:3
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]  
+      
+  ms-seat-read-db:
+    image: mongo
+    container_name: ms-seat-read-db
+    environment:
+      MONGO_INITDB_DATABASE: mongo-read-db
+      MONGO_INITDB_ROOT_USERNAME: sa
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASS_READ}
+    volumes:
+      - ./database/ms-seat/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - 27021:27017
+    restart: on-failure:3
+    healthcheck:
+      test: "echo 'db.runCommand(\"ping\").ok'"
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      
+  ms-seat-write-db:
+    image: mongo
+    container_name: ms-seat-write-db
+    environment:
+      MONGO_INITDB_DATABASE: mongo-write-db
+      MONGO_INITDB_ROOT_USERNAME: sa
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASS_WRITE}
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - 27022:27017
+    restart: on-failure:3
+    healthcheck:
+      test: "echo 'db.runCommand(\"ping\").ok'"
+      interval: 5s
+      timeout: 5s
+      retries: 3
+       
+  ms-seat-redis-db:
+    build: ./database/ms-seat
+    container_name: ms-seat-redis-db
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - "6381:6379"
+    restart: on-failure:3
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]  
+              
+  ms-reservation-sql-db:
+    image: postgres:latest
+    container_name: ms-reservation-sql-db
+    environment:
+      POSTGRES_PASSWORD: ${SQLDB_PASS}
+      POSTGRES_USER: root
+      POSTGRES_DB: reservationSqlDb
+    volumes:
+      - ./database/ms-reservation/init.sql:/docker-entrypoint-initdb.d/init.sql   
+    networks:
+     - hex-cqrs-es-eda-net
+    ports:
+      - "5432:5432"
+    restart: on-failure:3
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5 
+         
+  ms-reservation-write-db:
+    image: mongo
+    container_name: ms-reservation-write-db
+    environment:
+      MONGO_INITDB_DATABASE: mongo-write-db
+      MONGO_INITDB_ROOT_USERNAME: sa
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASS_WRITE}
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - 27023:27017
+    restart: on-failure:3
+    healthcheck:
+      test: "echo 'db.runCommand(\"ping\").ok'"
+      interval: 5s
+      timeout: 5s
+      retries: 3
+       
+  ms-reservation-redis-db:
+    build: ./database/ms-reservation
+    container_name: ms-reservation-redis-db
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - "6382:6379"
+    restart: on-failure:3
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]  
+                                
+  ms-registry-sql-db:
+    image: postgres:latest
+    container_name: ms-registry-sql-db
+    environment:
+      POSTGRES_PASSWORD: ${SQLDB_PASS}
+      POSTGRES_USER: root
+      POSTGRES_DB: registrySqlDb
+    volumes:
+      - ./database/ms-registry/init.sql:/docker-entrypoint-initdb.d/init.sql   
+    networks:
+     - hex-cqrs-es-eda-net
+    ports:
+      - "5433:5432"
+    restart: on-failure:3
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5 
+         
+  ms-registry-write-db:
+    image: mongo
+    container_name: ms-registry-write-db
+    environment:
+      MONGO_INITDB_DATABASE: mongo-write-db
+      MONGO_INITDB_ROOT_USERNAME: sa
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASS_WRITE}
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - 27024:27017
+    restart: on-failure:3
+    healthcheck:
+      test: "echo 'db.runCommand(\"ping\").ok'"
+      interval: 5s
+      timeout: 5s
+      retries: 3
+                     
+  kafka:
+    image: bitnami/kafka
+    container_name: kafka
+    environment:
+      - KAFKA_ENABLE_KRAFT=yes
+      - KAFKA_KRAFT_CLUSTER_ID=kaiju-kafka
+      - KAFKA_CFG_BROKER_ID=1
+      - KAFKA_CFG_NODE_ID=1
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
+      - ALLOW_PLAINTEXT_LISTENER=yes      
+#    volumes:
+#      - kafka_persistent:/var/lib/kafka
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - 9092:9092
+      - 9093:9093
+    restart: on-failure:3
+    healthcheck:
+      test: "bash -c 'printf \"\" > /dev/tcp/127.0.0.1/9092; exit $$?;'"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    environment:
+      DYNAMIC_CONFIG_ENABLED: 'true'
+      KAFKA_CLUSTERS_0_NAME: kaiju-kafka
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - 8080:8080
+    restart: on-failure:3
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+  ms-client:
+    build: ./ms-client
+    container_name: ms-client
+    env_file: ./.env     
+    environment: 
+      SPRING_PROFILES_ACTIVE: prod
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - 8081:8081
+    restart: on-failure:3
+    depends_on:
+      ms-client-read-db:
+        condition: service_healthy
+      ms-client-write-db:
+        condition: service_healthy
+      ms-client-redis-db:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+
+  ms-flight:
+    build: ./ms-flight
+    container_name: ms-flight
+    env_file: ./.env     
+    environment: 
+      SPRING_PROFILES_ACTIVE: prod
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - 8082:8082
+    restart: on-failure:3
+    depends_on:
+      ms-flight-read-db:
+        condition: service_healthy
+      ms-flight-write-db:
+        condition: service_healthy
+      ms-flight-redis-db:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+  
+  ms-seat:
+    build: ./ms-seat
+    container_name: ms-seat
+    env_file: ./.env     
+    environment: 
+      SPRING_PROFILES_ACTIVE: prod
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - 8083:8083
+    restart: on-failure:3
+    depends_on:
+      ms-seat-read-db:
+        condition: service_healthy
+      ms-seat-write-db:
+        condition: service_healthy
+      ms-seat-redis-db:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+        
+  ms-reservation:
+    build: ./ms-reservation
+    container_name: ms-reservation
+    env_file: ./.env     
+    environment: 
+      SPRING_PROFILES_ACTIVE: prod
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - 8084:8084
+    restart: on-failure:3
+    depends_on:
+      ms-reservation-sql-db:
+        condition: service_healthy
+      ms-reservation-write-db:
+        condition: service_healthy
+      ms-reservation-redis-db:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+
+  ms-payment:
+    build: ./ms-payment
+    container_name: ms-payment
+    environment: 
+      SPRING_PROFILES_ACTIVE: prod
+    networks:
+      - hex-cqrs-es-eda-net
+    restart: on-failure:3
+    depends_on:
+      kafka:
+        condition: service_healthy                            
+ 
+  ms-notification:
+    build: ./ms-notification
+    container_name: ms-notification
+    environment: 
+      SPRING_PROFILES_ACTIVE: prod
+    networks:
+      - hex-cqrs-es-eda-net
+    restart: on-failure:3
+    depends_on:
+      kafka:
+        condition: service_healthy                            
+          
+  ms-registry:
+    build: ./ms-registry
+    container_name: ms-registry
+    env_file: ./.env     
+    environment: 
+      SPRING_PROFILES_ACTIVE: prod
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - 8085:8085
+    restart: on-failure:3
+    depends_on:
+      ms-registry-sql-db:
+        condition: service_healthy
+      ms-registry-write-db:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+                       
+networks:
+  hex-cqrs-es-eda-net:
+    name: hex-cqrs-es-eda-net
+    ipam:
+      config:
+        - subnet: 172.16.33.0/24
+          gateway: 172.16.33.1  
+           
+        
