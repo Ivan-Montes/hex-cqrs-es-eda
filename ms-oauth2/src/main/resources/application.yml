@@ -1,0 +1,92 @@
+
+spring:
+  application:
+    name: ms-oauth2
+    
+  config:
+    import: optional:file:.env[.properties]
+ 
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        acks: all
+        retries: 10
+        retry:
+          backoff:
+            ms: 1000
+    consumer:
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+           json:
+             trusted:
+               packages: '*'                   
+    
+# H2 Database
+  datasource:
+    url: jdbc:h2:mem:oauth2Db
+    
+# Defer data.sql until Spring loads
+  jpa:
+    defer-datasource-initialization: true
+# for any script-based initialization
+  sql:
+    init:
+      mode: always
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${properties.authorization.server.issuer}
+          
+# Custom properties  
+properties:
+  authorization:
+    server:
+      issuer: http://localhost:9000
+  oauth2:
+    clientid: client
+    clientsecret: secret
+    redirectUri: https://oauthdebugger.com/debug
+            
+server:
+  port: ${SERVER_PORT:9000}
+
+logging:
+  level:
+    org:
+      springframework:
+        #security: trace        
+     
+# Enable /actuator/info
+management:
+  info:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics
+ 
+  endpoint:
+    health:
+      probes:
+        enabled: true        
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true  
+             
+# Basic data for /actuator/info
+info:
+  app:
+    name: ${spring.application.name}
+    version: 1.0.0     
+    
