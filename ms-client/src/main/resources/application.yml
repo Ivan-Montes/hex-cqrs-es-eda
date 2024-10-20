@@ -34,12 +34,45 @@ spring:
       port: 6379
       password: ${REDISDB_PASS:invalidPassword}
       timeout: 60000
-                    
+      
+   # JWT Server conf for client
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9000     
+                      
 mongodb:
   uri:
     read: mongodb://sa:${MONGODB_PASS_READ:invalidPassword}@localhost:27017/mongo-read-db?authSource=admin
     write: mongodb://sa:${MONGODB_PASS_WRITE:invalidPassword}@localhost:27018/mongo-write-db?authSource=admin
-    
+              
 server:
   port: 8081
-    
+ 
+# Enable /actuator/info
+management:
+  info:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics
+ 
+  endpoint:
+    health:
+      probes:
+        enabled: true        
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true  
+             
+# Basic data for /actuator/info
+info:
+  app:
+    name: ${spring.application.name}
+    version: 1.0.0       
+   
