@@ -6,6 +6,12 @@ spring:
     consumer:
       bootstrap-servers: kafka:9092 
       
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://ms-oauth2:9000 
+              
   data:
     redis:
       host: ms-flight-redis-db
