@@ -117,7 +117,7 @@ end
   KafkaUI <--> |  | Kafka
   ms-oauth2 <--> |  | Kafka
   
-  classDef canvas_basic fill:#dcff1e,stroke:#333;
+  classDef canvas_basic fill:#B1D690,stroke:#333;
   class ms-client-db,ms-flight-db,ms-seat-db,ms-reservation-db,ms-registry-db canvas_basic
   class ms-client,ms-flight,ms-seat,ms-reservation,ms-payment,ms-notification,ms-registry,ms-oauth2,Kafka,KafkaUI canvas_basic
   
