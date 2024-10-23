@@ -237,7 +237,7 @@ services:
       retries: 3
                      
   kafka:
-    image: bitnami/kafka
+    image: bitnami/kafka:latest
     container_name: kafka
     environment:
       - KAFKA_ENABLE_KRAFT=yes
@@ -250,7 +250,9 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
       - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
-      - ALLOW_PLAINTEXT_LISTENER=yes      
+      - ALLOW_PLAINTEXT_LISTENER=yes   
+      - KAFKA_AUTO_OFFSET_RESET=earliest        
+      - BITNAMI_DEBUG=true
 #    volumes:
 #      - kafka_persistent:/var/lib/kafka
     networks:
@@ -264,6 +266,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 60s
   
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -407,7 +410,18 @@ services:
         condition: service_healthy
       kafka:
         condition: service_healthy
-                       
+ 
+  ms-oauth2:
+    build: ./ms-oauth2
+    container_name: ms-oauth2
+    environment: 
+      SPRING_PROFILES_ACTIVE: prod
+    networks:
+      - hex-cqrs-es-eda-net
+    ports:
+      - 9000:9000
+    restart: on-failure:3
+                               
 networks:
   hex-cqrs-es-eda-net:
     name: hex-cqrs-es-eda-net
