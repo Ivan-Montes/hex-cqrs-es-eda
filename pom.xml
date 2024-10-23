@@ -37,7 +37,23 @@
 		    <groupId>org.springframework.kafka</groupId>
 		    <artifactId>spring-kafka-test</artifactId>
 		    <scope>test</scope>
-		</dependency>	
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		
+		<dependency>
+	      <groupId>org.springframework.boot</groupId>
+	      <artifactId>spring-boot-starter-security</artifactId>
+	    </dependency>    
+	    <dependency>
+	      <groupId>org.springframework.security</groupId>
+	      <artifactId>spring-security-test</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+	    				
 	</dependencies>
 
 	<build>
@@ -84,6 +100,7 @@
 		<module>ms-payment</module>
 		<module>ms-notification</module>
 		<module>ms-registry</module>
+		<module>ms-oauth2</module>
 	</modules>
 
 </project>
