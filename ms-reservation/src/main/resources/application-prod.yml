@@ -16,4 +16,10 @@ spring:
               
     mongodb:
       uri: mongodb://sa:${MONGODB_PASS_WRITE:invalidPassword}@ms-reservation-write-db:27017/mongo-write-db?authSource=admin
- 
+      
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://ms-oauth2:9000 
+  
