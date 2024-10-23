@@ -1,6 +1,6 @@
 # hex-cqrs-es-eda
 
-Airline management Microservices in a multimodule Maven project with Hexagonal Arch, CQRS, Event Sourcing, Event Driven Arch and Kafka for synchronizing databases
+Airline management in a multimodule Maven project with Hexagonal Arch, CQRS, Event Sourcing, Event Driven Arch and Kafka for synchronizing databases
 
 **Components**
 - [Kafka](https://kafka.apache.org/) [9092] + [9093] 
@@ -9,15 +9,15 @@ Airline management Microservices in a multimodule Maven project with Hexagonal A
 - REST API ms-flight with [OpenApi Swagger](https://swagger.io/) and two separate DB for R/RW actions [8082]
 - REST API ms-seat with [OpenApi Swagger](https://swagger.io/) and two separate DB for R/RW actions [8083]
 - REST API ms-reservation with [OpenApi Swagger](https://swagger.io/) and two separate DB for R/RW actions [8084]
-- [Redis](https://redis.io/) DB in every microservice work as caches to store ID references for other REST APIs
 - Service ms-payment simulates an event driven payment gateway.
 - Service ms-notification working as an event driven notification service
-- REST API ms-registry with [OpenApi Swagger](https://swagger.io/) and two separate DB for R/RW actions for storage of all events [8085]
+- REST API ms-registry with [OpenApi Swagger](https://swagger.io/) and two separate DB for R/RW storaging all events [8085]
+- REST API ms-oauth2 with [OpenApi Swagger](https://swagger.io/) working as JWT Token generator [9000]
 
 ```mermaid
 
 graph BT
-  
+
 subgraph KafkaUI
  Kafka-UI
 end  
@@ -28,7 +28,7 @@ subgraph Kafka
 end 
 
 subgraph ms-client
-   C{{ms-client}}
+   C{{Client}}
 end 
 
 subgraph ms-client-db
@@ -39,7 +39,7 @@ subgraph ms-client-db
 end
 
 subgraph ms-flight
-   F{{ms-flight}} 
+   F{{Flight}} 
 end  
 
 subgraph ms-flight-db
@@ -50,8 +50,8 @@ subgraph ms-flight-db
 end
 
 subgraph ms-seat
-   S{{ms-seat}}
-   P{{ms-plane}}
+   S{{Seat}}
+   P{{Plane}}
 end
 
 subgraph ms-seat-db
@@ -62,7 +62,7 @@ subgraph ms-seat-db
 end
 
 subgraph ms-reservation
-   R{{ms-reservation}}
+   R{{Reservation}}
 end  
 
 subgraph ms-reservation-db
@@ -73,7 +73,7 @@ subgraph ms-reservation-db
 end
 
 subgraph ms-registry
-   RE{{ms-registry}}
+   RE{{Registry}}
 end 
 
 subgraph ms-registry-db
@@ -83,13 +83,17 @@ subgraph ms-registry-db
 end
 
 subgraph ms-payment
-   PAY(ms-payment)
+   PAY(Payment)
 end
 
 subgraph ms-notification
-    NOT(ms-notification)
+    NOT(Notification)
 end 
-  
+ 
+subgraph ms-oauth2
+  msoauth2{{JWT Token}}
+end
+    
   ms-client-db <--> ms-client
   ms-flight-db <--> ms-flight
   ms-seat-db <--> ms-seat
@@ -111,6 +115,11 @@ end
   ms-registry <-->|Subscriber| Kafka
 
   KafkaUI <--> |  | Kafka
+  ms-oauth2 <--> |  | Kafka
+  
+  classDef canvas_basic fill:#dcff1e,stroke:#333;
+  class ms-client-db,ms-flight-db,ms-seat-db,ms-reservation-db,ms-registry-db canvas_basic
+  class ms-client,ms-flight,ms-seat,ms-reservation,ms-payment,ms-notification,ms-registry,ms-oauth2,Kafka,KafkaUI canvas_basic
   
   
 ```
@@ -178,7 +187,7 @@ First of all, please visit the REST API documentation. Replace ${port} for the s
 
 #### :arrow_right: DB synchronization by Publisher-Subscriber pattern
 
-#### :arrow_right: Redis DB in every microservice work as caches to store ID references for other REST APIs
+#### :arrow_right: Redis DB for each microservice works as caches to store ID references for other REST APIs
 
 #### :arrow_right: Event Sourcing for persisting as an ordered sequence of events
 
