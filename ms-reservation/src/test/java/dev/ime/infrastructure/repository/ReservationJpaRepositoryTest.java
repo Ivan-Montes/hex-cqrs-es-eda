@@ -30,6 +30,7 @@ class ReservationJpaRepositoryTest {
 	@Autowired
 	private ReservationJpaRepository reservationJpaRepository;
 
+	@SuppressWarnings("resource")
 	@Container
 	@ServiceConnection
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
