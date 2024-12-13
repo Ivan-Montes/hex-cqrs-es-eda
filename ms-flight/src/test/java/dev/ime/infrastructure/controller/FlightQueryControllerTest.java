@@ -14,7 +14,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -30,19 +30,19 @@ import dev.ime.domain.port.inbound.FlightQueryServicePort;
 @AutoConfigureMockMvc(addFilters = false)
 class FlightQueryControllerTest {
 
-	@MockBean
+	@MockitoBean
 	private FlightQueryServicePort flightQueryServicePort;
 
-	@MockBean
+	@MockitoBean
 	private FlightMapper flightMapper;	
 
 	@Autowired
 	private MockMvc mockMvc;
 	
-	@MockBean
+	@MockitoBean
 	private LoggerUtil loggerUtil;
 	
-	private final String PATH = "/api/flights";	
+	private static final String PATH = "/api/flights";	
 	private List<FlightDto> flightDtoList;
 	private List<Flight> flightList;
 	private FlightDto flightDtoTest;
