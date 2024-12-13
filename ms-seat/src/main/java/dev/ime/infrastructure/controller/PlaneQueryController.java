@@ -37,8 +37,8 @@ public class PlaneQueryController implements GenericQueryControllerPort<PlaneDto
 	@Override
 	@Operation(summary="Get a List of all Plane, optionally paged", description="Get a List of all Plane, @return an object Response with a List of DTO's")
 	public ResponseEntity<List<PlaneDto>> getAll(
-	        @RequestParam(value = "page", required = false)  Integer page,
-	        @RequestParam(value = "size", required = false)  Integer size) {
+	        @RequestParam(required = false)  Integer page,
+	        @RequestParam(required = false)  Integer size) {
 
 		Integer pageValue = page != null && page >= 0 ? page : 0;
 		Integer sizeValue = size != null && size >= 1 ? size : 20;

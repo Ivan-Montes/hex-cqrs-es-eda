@@ -37,8 +37,8 @@ public class SeatQueryController implements GenericQueryControllerPort<SeatDto>{
 	@Override
 	@Operation(summary="Get a List of all Seat, optionally paged", description="Get a List of all Seat, @return an object Response with a List of DTO's")
 	public ResponseEntity<List<SeatDto>> getAll(
-	        @RequestParam(value = "page", required = false)  Integer page,
-	        @RequestParam(value = "size", required = false)  Integer size) {
+	        @RequestParam(required = false)  Integer page,
+	        @RequestParam(required = false)  Integer size) {
 
 		Integer pageValue = page != null && page >= 0 ? page : 0;
 		Integer sizeValue = size != null && size >= 1 ? size : 20;
