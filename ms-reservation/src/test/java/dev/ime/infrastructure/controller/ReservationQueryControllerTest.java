@@ -14,7 +14,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -30,19 +30,19 @@ import dev.ime.domain.port.inbound.GenericQueryServicePort;
 @AutoConfigureMockMvc(addFilters = false)
 class ReservationQueryControllerTest {
 
-	@MockBean
+	@MockitoBean
 	private GenericQueryServicePort<Reservation> genericQueryServicePort;
 	
-	@MockBean
+	@MockitoBean
 	private ReservationMapper reservationMapper;
 	
 	@Autowired
 	private MockMvc mockMvc;
 	
-	@MockBean
+	@MockitoBean
 	private LoggerUtil loggerUtil;
 	
-	private final String PATH = "/api/reservations";
+	private static final String PATH = "/api/reservations";
 
 	private final UUID reservationId = UUID.randomUUID();
 	private final UUID clientId = UUID.randomUUID();
